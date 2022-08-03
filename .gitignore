@@ -1,0 +1,17 @@
+.idea
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# ignore all go swagger generated files except the configuration one
+swagger/cmd
+swagger/restapi/*
+swagger/models/*
+!swagger/restapi/configure_insights_service.go
+
+/bin
+.env
+.env_local
