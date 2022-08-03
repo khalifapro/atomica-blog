@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"strconv"
 
 	comments "github.com/asaberwd/atomica-blog/handlers/comment"
 	"github.com/asaberwd/atomica-blog/handlers/docs"
@@ -45,7 +46,11 @@ func main() {
 
 	server := restapi.NewServer(api)
 	server.EnabledListeners = []string{"http"}
-	server.Port = 8080
+	port, err := strconv.Atoi(os.Getenv("PORT"))
+	if err != nil {
+		port = 9000
+	}
+	server.Port = port
 	defer server.Shutdown()
 
 	if err := server.Serve(); err != nil {
