@@ -1,1 +1,1 @@
-web: bin/atomica-blog-api
+web: bin/api
