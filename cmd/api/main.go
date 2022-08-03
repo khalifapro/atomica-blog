@@ -44,7 +44,7 @@ func main() {
 	comments.Configure(api, *CommentSvc)
 
 	server := restapi.NewServer(api)
-	server.EnabledListeners = []string{"http", "https"}
+	server.EnabledListeners = []string{"http"}
 	server.Port = 8080
 	defer server.Shutdown()
 
