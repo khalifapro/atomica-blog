@@ -20,6 +20,7 @@ type Service interface {
 	CreatePost(blogPost *post.BlogPost) (int64, error)
 	ListPosts() ([]post.BlogPost, error)
 	GetPostByID(id int64) (*post.BlogPost, error)
+	UpdatePost(post *post.BlogPost, id int64) error
 	DeletePostByID(id int64) error
 }
 
@@ -60,6 +61,20 @@ func (p *PostHandler) GetPostByID(id int64) (*models.Post, error) {
 	}
 	postModel := mapPostToModel(blogPost)
 	return postModel, nil
+}
+
+func (p *PostHandler) UpdatePost(post *models.Post, id int64) (*models.Post, error) {
+	bPost := mapModelToPost(post)
+	id, err := p.PostManager.CreatePost(bPost)
+	if err != nil {
+		return post, err
+	}
+
+	blogPost, err := p.GetPostByID(id)
+	if err != nil {
+		return blogPost, err
+	}
+	return blogPost, nil
 }
 
 func (p *PostHandler) DeletePostByID(id int64) error {

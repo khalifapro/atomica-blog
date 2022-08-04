@@ -58,6 +58,16 @@ func (m *Manager) CreatePost(post *BlogPost) (int64, error) {
 	return id, nil
 }
 
+// UpdatePost ...
+func (m *Manager) UpdatePost(post *BlogPost, id int64) error {
+	row := m.DB.QueryRow("UPDATE posts SET title=$1, content=$2, photos=$3, tags=$4, created_at=now(), updated_at=now() WHERE id=$5", post.Title, post.Content, pq.Array(post.Photos), pq.Array(post.Tags), id)
+	err := row.Scan(&id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 // GetPostByID ...
 func (m *Manager) GetPostByID(id int64) (*BlogPost, error) {
 	b := BlogPost{}

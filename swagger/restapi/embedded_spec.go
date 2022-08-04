@@ -153,14 +153,14 @@ func init() {
           }
         ],
         "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
+          },
           "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Post not found"
-          },
-          "405": {
-            "description": "Validation exception"
+            "$ref": "#/responses/invalid-request"
           }
         }
       },
@@ -236,14 +236,14 @@ func init() {
           }
         ],
         "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Comment"
+            }
+          },
           "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Post not found"
-          },
-          "405": {
-            "description": "Validation exception"
+            "$ref": "#/responses/invalid-request"
           }
         }
       }
@@ -696,14 +696,17 @@ func init() {
           }
         ],
         "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
+          },
           "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Post not found"
-          },
-          "405": {
-            "description": "Validation exception"
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
           }
         }
       },
@@ -785,14 +788,17 @@ func init() {
           }
         ],
         "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Comment"
+            }
+          },
           "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Post not found"
-          },
-          "405": {
-            "description": "Validation exception"
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
           }
         }
       }

@@ -16,11 +16,9 @@ import (
 	commentService "github.com/asaberwd/atomica-blog/internal/comment"
 	postService "github.com/asaberwd/atomica-blog/internal/post"
 	"github.com/asaberwd/atomica-blog/swagger/restapi/operations"
-	"github.com/asaberwd/atomica-blog/swagger/restapi/operations/post"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/loads"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/runtime/middleware"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )
@@ -63,12 +61,6 @@ func configureAPI(api *operations.AtomicaBlogServiceAPI) http.Handler {
 	// api.APIAuthorizer = security.Authorized()
 	// You may change here the memory limit for this multipart form parser. Below is the default (32 MB).
 	// post.UpdatePostWithFormMaxParseMemory = 32 << 20
-
-	if api.PostUpdatePostHandler == nil {
-		api.PostUpdatePostHandler = post.UpdatePostHandlerFunc(func(params post.UpdatePostParams) middleware.Responder {
-			return middleware.NotImplemented("operation post.UpdatePost has not yet been implemented")
-		})
-	}
 
 	healthService := health.New()
 	health.Configure(api, healthService)

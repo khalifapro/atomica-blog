@@ -23,23 +23,24 @@ type Service interface {
 	DeleteCommentByID(id int64) error
 }
 
-func (p *CommentHandler) CreateComment(comment *models.Comment) (*models.Comment, error) {
+func (c *CommentHandler) CreateComment(comment *models.Comment) (*models.Comment, error) {
 	pComment := mapModelToComment(comment)
-	_, err := p.CommentManager.CreateComment(pComment)
+	id, err := c.CommentManager.CreateComment(pComment)
 	if err != nil {
 		return comment, err
 	}
 
-	/*	postComment, err := p.GetPostByID(id)
-		if err != nil {
-			return postComment, err
-		}*/
-	return comment, nil
+	postComment, err := c.GetCommentByID(id)
+	if err != nil {
+		return comment, err
+	}
+
+	return postComment, nil
 }
 
-func (p *CommentHandler) ListPostComments(postID int64) (models.Comments, error) {
+func (c *CommentHandler) ListPostComments(postID int64) (models.Comments, error) {
 	commentsModel := models.Comments{}
-	blogPosts, err := p.CommentManager.ListPostComments(postID)
+	blogPosts, err := c.CommentManager.ListPostComments(postID)
 	if err != nil {
 		return models.Comments{}, err
 	}
@@ -50,8 +51,8 @@ func (p *CommentHandler) ListPostComments(postID int64) (models.Comments, error)
 	return commentsModel, nil
 }
 
-func (p *CommentHandler) UpdatePostComment(id int64) (*models.Comment, error) {
-	postComment, err := p.CommentManager.GetCommentByID(id)
+func (c *CommentHandler) UpdatePostComment(id int64) (*models.Comment, error) {
+	postComment, err := c.CommentManager.GetCommentByID(id)
 	if err != nil {
 		return &models.Comment{}, err
 	}
@@ -62,8 +63,20 @@ func (p *CommentHandler) UpdatePostComment(id int64) (*models.Comment, error) {
 	return postModel, nil
 }
 
-func (p *CommentHandler) DeleteCommentByID(id int64) error {
-	err := p.CommentManager.DeleteCommentByID(id)
+func (c *CommentHandler) GetCommentByID(id int64) (*models.Comment, error) {
+	postComment, err := c.CommentManager.GetCommentByID(id)
+	if err != nil {
+		return &models.Comment{}, err
+	}
+	if postComment == nil {
+		return nil, nil
+	}
+	commentModel := mapCommentToModel(postComment)
+	return commentModel, nil
+}
+
+func (c *CommentHandler) DeleteCommentByID(id int64) error {
+	err := c.CommentManager.DeleteCommentByID(id)
 	if err != nil {
 		return err
 	}

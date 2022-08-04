@@ -52,7 +52,12 @@ func Configure(api *operations.AtomicaBlogServiceAPI, service PostHandler) {
 	})
 
 	api.PostUpdatePostHandler = post.UpdatePostHandlerFunc(func(params post.UpdatePostParams) middleware.Responder {
-		return middleware.NotImplemented("operation post.UpdatePost has not yet been implemented")
+		blogPost, err := service.UpdatePost(params.Post, params.PostID)
+		if err != nil {
+			fmt.Println(err)
+			return post.NewUpdatePostBadRequest().WithPayload(&models.Error{Message: err.Error()})
+		}
+		return post.NewUpdatePostOK().WithPayload(blogPost)
 	})
 
 }

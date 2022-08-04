@@ -9,16 +9,67 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime"
+
+	models "github.com/asaberwd/atomica-blog/swagger/models"
 )
+
+// UpdatePostCommentOKCode is the HTTP code returned for type UpdatePostCommentOK
+const UpdatePostCommentOKCode int = 200
+
+/*UpdatePostCommentOK successful operation
+
+swagger:response updatePostCommentOK
+*/
+type UpdatePostCommentOK struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Comment `json:"body,omitempty"`
+}
+
+// NewUpdatePostCommentOK creates UpdatePostCommentOK with default headers values
+func NewUpdatePostCommentOK() *UpdatePostCommentOK {
+
+	return &UpdatePostCommentOK{}
+}
+
+// WithPayload adds the payload to the update post comment o k response
+func (o *UpdatePostCommentOK) WithPayload(payload *models.Comment) *UpdatePostCommentOK {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the update post comment o k response
+func (o *UpdatePostCommentOK) SetPayload(payload *models.Comment) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *UpdatePostCommentOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(200)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
 
 // UpdatePostCommentBadRequestCode is the HTTP code returned for type UpdatePostCommentBadRequest
 const UpdatePostCommentBadRequestCode int = 400
 
-/*UpdatePostCommentBadRequest Invalid ID supplied
+/*UpdatePostCommentBadRequest Invalid request
 
 swagger:response updatePostCommentBadRequest
 */
 type UpdatePostCommentBadRequest struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Error `json:"body,omitempty"`
 }
 
 // NewUpdatePostCommentBadRequest creates UpdatePostCommentBadRequest with default headers values
@@ -27,58 +78,25 @@ func NewUpdatePostCommentBadRequest() *UpdatePostCommentBadRequest {
 	return &UpdatePostCommentBadRequest{}
 }
 
+// WithPayload adds the payload to the update post comment bad request response
+func (o *UpdatePostCommentBadRequest) WithPayload(payload *models.Error) *UpdatePostCommentBadRequest {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the update post comment bad request response
+func (o *UpdatePostCommentBadRequest) SetPayload(payload *models.Error) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *UpdatePostCommentBadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
 	rw.WriteHeader(400)
-}
-
-// UpdatePostCommentNotFoundCode is the HTTP code returned for type UpdatePostCommentNotFound
-const UpdatePostCommentNotFoundCode int = 404
-
-/*UpdatePostCommentNotFound Post not found
-
-swagger:response updatePostCommentNotFound
-*/
-type UpdatePostCommentNotFound struct {
-}
-
-// NewUpdatePostCommentNotFound creates UpdatePostCommentNotFound with default headers values
-func NewUpdatePostCommentNotFound() *UpdatePostCommentNotFound {
-
-	return &UpdatePostCommentNotFound{}
-}
-
-// WriteResponse to the client
-func (o *UpdatePostCommentNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
-
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
-	rw.WriteHeader(404)
-}
-
-// UpdatePostCommentMethodNotAllowedCode is the HTTP code returned for type UpdatePostCommentMethodNotAllowed
-const UpdatePostCommentMethodNotAllowedCode int = 405
-
-/*UpdatePostCommentMethodNotAllowed Validation exception
-
-swagger:response updatePostCommentMethodNotAllowed
-*/
-type UpdatePostCommentMethodNotAllowed struct {
-}
-
-// NewUpdatePostCommentMethodNotAllowed creates UpdatePostCommentMethodNotAllowed with default headers values
-func NewUpdatePostCommentMethodNotAllowed() *UpdatePostCommentMethodNotAllowed {
-
-	return &UpdatePostCommentMethodNotAllowed{}
-}
-
-// WriteResponse to the client
-func (o *UpdatePostCommentMethodNotAllowed) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
-
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
-	rw.WriteHeader(405)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
 }

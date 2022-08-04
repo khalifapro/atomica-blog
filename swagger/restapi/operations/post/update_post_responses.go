@@ -9,16 +9,67 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime"
+
+	models "github.com/asaberwd/atomica-blog/swagger/models"
 )
+
+// UpdatePostOKCode is the HTTP code returned for type UpdatePostOK
+const UpdatePostOKCode int = 200
+
+/*UpdatePostOK successful operation
+
+swagger:response updatePostOK
+*/
+type UpdatePostOK struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Post `json:"body,omitempty"`
+}
+
+// NewUpdatePostOK creates UpdatePostOK with default headers values
+func NewUpdatePostOK() *UpdatePostOK {
+
+	return &UpdatePostOK{}
+}
+
+// WithPayload adds the payload to the update post o k response
+func (o *UpdatePostOK) WithPayload(payload *models.Post) *UpdatePostOK {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the update post o k response
+func (o *UpdatePostOK) SetPayload(payload *models.Post) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *UpdatePostOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(200)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
 
 // UpdatePostBadRequestCode is the HTTP code returned for type UpdatePostBadRequest
 const UpdatePostBadRequestCode int = 400
 
-/*UpdatePostBadRequest Invalid ID supplied
+/*UpdatePostBadRequest Invalid request
 
 swagger:response updatePostBadRequest
 */
 type UpdatePostBadRequest struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Error `json:"body,omitempty"`
 }
 
 // NewUpdatePostBadRequest creates UpdatePostBadRequest with default headers values
@@ -27,58 +78,25 @@ func NewUpdatePostBadRequest() *UpdatePostBadRequest {
 	return &UpdatePostBadRequest{}
 }
 
+// WithPayload adds the payload to the update post bad request response
+func (o *UpdatePostBadRequest) WithPayload(payload *models.Error) *UpdatePostBadRequest {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the update post bad request response
+func (o *UpdatePostBadRequest) SetPayload(payload *models.Error) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *UpdatePostBadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
 	rw.WriteHeader(400)
-}
-
-// UpdatePostNotFoundCode is the HTTP code returned for type UpdatePostNotFound
-const UpdatePostNotFoundCode int = 404
-
-/*UpdatePostNotFound Post not found
-
-swagger:response updatePostNotFound
-*/
-type UpdatePostNotFound struct {
-}
-
-// NewUpdatePostNotFound creates UpdatePostNotFound with default headers values
-func NewUpdatePostNotFound() *UpdatePostNotFound {
-
-	return &UpdatePostNotFound{}
-}
-
-// WriteResponse to the client
-func (o *UpdatePostNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
-
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
-	rw.WriteHeader(404)
-}
-
-// UpdatePostMethodNotAllowedCode is the HTTP code returned for type UpdatePostMethodNotAllowed
-const UpdatePostMethodNotAllowedCode int = 405
-
-/*UpdatePostMethodNotAllowed Validation exception
-
-swagger:response updatePostMethodNotAllowed
-*/
-type UpdatePostMethodNotAllowed struct {
-}
-
-// NewUpdatePostMethodNotAllowed creates UpdatePostMethodNotAllowed with default headers values
-func NewUpdatePostMethodNotAllowed() *UpdatePostMethodNotAllowed {
-
-	return &UpdatePostMethodNotAllowed{}
-}
-
-// WriteResponse to the client
-func (o *UpdatePostMethodNotAllowed) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
-
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
-	rw.WriteHeader(405)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
 }
