@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"github.com/lib/pq"
+	"strings"
 )
 
 // Manager ...
@@ -50,8 +51,12 @@ func (m *Manager) ListPosts() ([]BlogPost, error) {
 // CreatePost ...
 func (m *Manager) CreatePost(post *BlogPost) (int64, error) {
 	id := int64(0)
+	err := validate(post)
+	if err != nil {
+		return id, err
+	}
 	row := m.DB.QueryRow("INSERT INTO posts (title, content, photos, tags, created_at, updated_at) Values ($1, $2, $3, $4, now(), now()) RETURNING id", post.Title, post.Content, pq.Array(post.Photos), pq.Array(post.Tags))
-	err := row.Scan(&id)
+	err = row.Scan(&id)
 	if err != nil {
 		return id, err
 	}
@@ -60,8 +65,13 @@ func (m *Manager) CreatePost(post *BlogPost) (int64, error) {
 
 // UpdatePost ...
 func (m *Manager) UpdatePost(post *BlogPost, id int64) error {
+	err := validate(post)
+	if err != nil {
+		return nil
+	}
+
 	row := m.DB.QueryRow("UPDATE posts SET title=$1, content=$2, photos=$3, tags=$4, created_at=now(), updated_at=now() WHERE id=$5", post.Title, post.Content, pq.Array(post.Photos), pq.Array(post.Tags), id)
-	err := row.Scan(&id)
+	err = row.Scan(&id)
 	if err != nil {
 		return err
 	}
@@ -95,5 +105,19 @@ func (m *Manager) DeletePostByID(id int64) error {
 	if i == 0 {
 		return errors.New("error deleting post, post does not exist")
 	}
+	return nil
+}
+
+func validate(post *BlogPost) error {
+	post.Title = strings.TrimSpace(post.Title)
+	if len(post.Title) < 3 || len(post.Title) > 250 {
+		errors.New("post title length must be greater than 3 letters and less than 250")
+	}
+
+	post.Content = strings.TrimSpace(post.Content)
+	if len(post.Content) < 150 || len(post.Content) > 1024 {
+		errors.New("post content length must be greater than 150 letters and less than 1024")
+	}
+
 	return nil
 }
