@@ -47,6 +47,6 @@ func main() {
 
 	logrus.Debug("Starting Lambda")
 	//lambda.Start(api.Serve(nil))
-	lambda.Start(ddlambda.WrapFunction(api.Serve(nil), nil))
-
+	cfg := ddlambda.Config{}
+	lambda.Start(ddlambda.WrapFunction(api.Serve(nil), &cfg))
 }
