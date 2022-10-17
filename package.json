@@ -16,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/khalifapro/atomica-blog/issues"
   },
-  "homepage": "https://github.com/khalifapro/atomica-blog#readme"
+  "homepage": "https://github.com/khalifapro/atomica-blog#readme",
+  "devDependencies": {
+    "serverless-localstack": "^1.0.1",
+    "serverless-plugin-datadog": "^5.9.0",
+    "serverless-plugin-tracing": "^2.0.0",
+    "serverless-prune-plugin": "^2.0.1",
+    "serverless-pseudo-parameters": "^2.6.1"
+  }
 }

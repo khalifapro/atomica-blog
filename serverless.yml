@@ -13,7 +13,7 @@ plugins:
   - serverless-plugin-datadog
 custom:
   stage: ${opt:stage, 'dev'}
-  pgconn: ${ssm:/insights/onboarding/postgresql/${self:custom.stage}}
+  pgconn: ${ssm:/atomica/postgresql/${self:custom.stage}}
   localstack:
     debug: true
     stages:
@@ -55,8 +55,6 @@ provider:
   lambdaHashingVersion: 20201221
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-2'}
-  apiGateway:
-  #shouldStartNameWithService: true
 
   environment:
     stage: ${self:provider.stage}
