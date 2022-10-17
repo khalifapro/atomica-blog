@@ -1,9 +1,7 @@
 package main
 
 import (
-	"log"
 	"os"
-	"strconv"
 
 	comments "github.com/asaberwd/atomica-blog/handlers/comment"
 	"github.com/asaberwd/atomica-blog/handlers/docs"
@@ -45,18 +43,6 @@ func main() {
 	commentManager := commentService.NewManager(db)
 	CommentSvc := comments.New(commentManager)
 	comments.Configure(api, *CommentSvc)
-
-	server := restapi.NewServer(api)
-	server.EnabledListeners = []string{"http"}
-	port, err := strconv.Atoi(os.Getenv("PORT"))
-	if err != nil {
-		port = 9000
-	}
-	server.Port = port
-
-	if err := server.Serve(); err != nil {
-		log.Fatalln(err)
-	}
 
 	logrus.Debug("Starting Lambda")
 	lambda.Start(api.Serve(nil))
