@@ -3,6 +3,7 @@ module github.com/asaberwd/atomica-blog
 go 1.17
 
 require (
+	github.com/aws/aws-lambda-go v1.34.1
 	github.com/go-openapi/errors v0.20.2
 	github.com/go-openapi/loads v0.21.1
 	github.com/go-openapi/runtime v0.24.1

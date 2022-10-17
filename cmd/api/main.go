@@ -13,9 +13,11 @@ import (
 	postService "github.com/asaberwd/atomica-blog/internal/post"
 	"github.com/asaberwd/atomica-blog/swagger/restapi"
 	"github.com/asaberwd/atomica-blog/swagger/restapi/operations"
+	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/go-openapi/loads"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
@@ -51,10 +53,11 @@ func main() {
 		port = 9000
 	}
 	server.Port = port
-	defer server.Shutdown()
 
 	if err := server.Serve(); err != nil {
 		log.Fatalln(err)
 	}
 
+	logrus.Debug("Starting Lambda")
+	lambda.Start(api.Serve(nil))
 }
