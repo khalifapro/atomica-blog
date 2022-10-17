@@ -23,7 +23,7 @@ custom:
     number: 3
   datadog:
     site: datadoghq.com
-    apiKeySecretArn: 316968bdd464409bce866828005abe2f
+    apiKey: 316968bdd464409bce866828005abe2f
 
 
 package:
