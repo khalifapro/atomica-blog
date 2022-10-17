@@ -1,6 +1,6 @@
 version: 2.1
 jobs:
-  build_onboard:
+  build_atomica:
     docker:
       - image: circleci/golang:1.17-stretch-node
     working_directory: /go/src/github.com/asaberwd/atomica-blog
@@ -30,10 +30,10 @@ jobs:
             - bin
             - serverless.yml
 
-  deploy_onboard: &deploy_onboard_anchor
+  deploy_atomica: &deploy_atomica_anchor
     docker:
       - image: cimg/node:17.4.0
-    working_directory: /tmp/onboard
+    working_directory: /tmp/atomica
     steps:
       - checkout
       - restore_cache:
@@ -63,31 +63,30 @@ jobs:
           no_output_timeout: 1.5h
 
   deploy_dev:
-    <<: *deploy_onboard_anchor
+    <<: *deploy_atomica_anchor
     environment:
       AWS_ACCESS_KEY_ID_ENV_VAR: AWS_ACCESS_KEY_ID_DEV
       AWS_SECRET_ACCESS_KEY_ENV_VAR: AWS_SECRET_ACCESS_KEY_DEV
-      INSIGHTS_ONBOARDING_PGCONN_ENV_VAR: INSIGHTS_ONBOARDING_PGCONN_DEV
       STAGE: dev
 
 
   deploy_prod:
-    <<: *deploy_onboard_anchor
+    <<: *deploy_atomica_anchor
     environment:
       AWS_ACCESS_KEY_ID_ENV_VAR: AWS_ACCESS_KEY_ID_PROD
       AWS_SECRET_ACCESS_KEY_ENV_VAR: AWS_SECRET_ACCESS_KEY_PROD
       STAGE: prod
 
 workflows:
-  onboard:
+  atomica:
     jobs:
-      - build_onboard:
+      - build_atomica:
           filters:
             tags:
               only: /.*/
       - deploy_dev:
           requires:
-            - build_onboard
+            - build_atomica
           filters:
             branches:
               only: add-serverless-lambda #main
@@ -96,7 +95,7 @@ workflows:
       - approve_prod:
           type: approval
           requires:
-            - build_onboard
+            - build_atomica
           filters:
             branches:
               ignore: /.*/
