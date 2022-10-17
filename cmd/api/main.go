@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/awslabs/aws-lambda-go-api-proxy/httpadapter"
 	"os"
 
 	comments "github.com/asaberwd/atomica-blog/handlers/comment"
@@ -45,7 +46,9 @@ func main() {
 	comments.Configure(api, *CommentSvc)
 
 	logrus.Debug("Starting Lambda")
+
 	lambda.Start(api.Serve(nil))
+	httpadapter.New(api.Serve(nil))
 	//cfg := ddlambda.Config{}
 	//lambda.Start(ddlambda.WrapFunction(api.Serve(nil), &cfg))
 }
