@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 
+	ddlambda "github.com/DataDog/datadog-lambda-go"
 	comments "github.com/asaberwd/atomica-blog/handlers/comment"
 	"github.com/asaberwd/atomica-blog/handlers/docs"
 	"github.com/asaberwd/atomica-blog/handlers/health"
@@ -45,5 +46,7 @@ func main() {
 	comments.Configure(api, *CommentSvc)
 
 	logrus.Debug("Starting Lambda")
-	lambda.Start(api.Serve(nil))
+	//lambda.Start(api.Serve(nil))
+	lambda.Start(ddlambda.WrapFunction(api.Serve(nil), nil))
+
 }
