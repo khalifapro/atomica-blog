@@ -47,8 +47,9 @@ func main() {
 
 	logrus.Debug("Starting Lambda")
 
-	lambda.Start(api.Serve(nil))
-	httpadapter.New(api.Serve(nil))
+	adapter := httpadapter.New(api.Serve(nil))
+	lambda.Start(adapter)
+
 	//cfg := ddlambda.Config{}
 	//lambda.Start(ddlambda.WrapFunction(api.Serve(nil), &cfg))
 }
