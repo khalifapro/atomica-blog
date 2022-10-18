@@ -1,10 +1,9 @@
 package main
 
 import (
-	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/awslabs/aws-lambda-go-api-proxy/httpadapter"
 	"os"
 
+	ddlambda "github.com/DataDog/datadog-lambda-go"
 	comments "github.com/asaberwd/atomica-blog/handlers/comment"
 	"github.com/asaberwd/atomica-blog/handlers/docs"
 	"github.com/asaberwd/atomica-blog/handlers/health"
@@ -13,6 +12,8 @@ import (
 	postService "github.com/asaberwd/atomica-blog/internal/post"
 	"github.com/asaberwd/atomica-blog/swagger/restapi"
 	"github.com/asaberwd/atomica-blog/swagger/restapi/operations"
+	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/awslabs/aws-lambda-go-api-proxy/httpadapter"
 	"github.com/go-openapi/loads"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
@@ -48,8 +49,8 @@ func main() {
 	logrus.Debug("Starting Lambda")
 
 	adapter := httpadapter.New(api.Serve(nil)).ProxyWithContext
-	lambda.Start(adapter)
+	//lambda.Start(adapter)
 
 	//cfg := ddlambda.Config{}
-	//lambda.Start(ddlambda.WrapFunction(api.Serve(nil), &cfg))
+	lambda.Start(ddlambda.WrapFunction(adapter, nil))
 }

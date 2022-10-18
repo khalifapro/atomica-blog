@@ -73,11 +73,5 @@ functions:
 
     events:
       - http:
-          path: v2/health
-          method: get
-          response:
-            headers:
-              Content-Type: "'text/html'"
-      - http:
           path: v1/{any+}
           method: any
